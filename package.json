@@ -1,0 +1,16 @@
+{
+  "name": "nauty",
+  "version": "0.0.0",
+  "description": "Objetos que permiten manipular las coordenadas de los puntos ademas de operaciones matematicas de planos cartecianos",
+  "scripts": {
+    "info": "echo \"En desarrollo\" && exit 1"
+  },
+  "keywords": [
+    "coordenadas",
+    "matrix2x2",
+    "matrix",
+    "rect",
+    "dimencion",
+    "planos cartecianos"],
+  "author": "Neko Shooter"
+}
