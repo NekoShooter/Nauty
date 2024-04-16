@@ -1,16 +1,31 @@
 {
   "name": "nauty",
-  "version": "0.0.0",
-  "description": "Objetos que permiten manipular las coordenadas de los puntos ademas de operaciones matematicas de planos cartecianos",
-  "scripts": {
-    "info": "echo \"En desarrollo\" && exit 1"
-  },
+  "version": "1.0.0",
+  "author": "Neko Shooter",
+  "description": "Nauty proporciona herramientas para trabajar con elementos geométricos en un plano cartesiano, permitiendo crear, manipular y transformar objetos de manera eficiente y precisa. Es especialmente útil para aplicaciones gráficas, juegos, visualizaciones de datos y cualquier otra tarea que involucre coordenadas y geometría en el plano. ",
+  "license": "MIT",
+  "main": "Nauty.js",
+  "module": "Nauty.js",
+  "files": [
+    "src",
+    "Nauty.js",
+    "README.md",
+    "LICENSE"],
+  "type": "module",
   "keywords": [
     "coordenadas",
     "matrix2x2",
     "matrix",
     "rect",
-    "dimencion",
-    "planos cartecianos"],
-  "author": "Neko Shooter"
+    "puntos",
+    "dimension",
+    "planos cartecianos",
+    "transformaciones geometricas"],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/NekoShooter/Nauty"
+    },
+    "bugs": {
+      "url": "https://github.com/NekoShooter/Nauty/issues"
+    }
 }
