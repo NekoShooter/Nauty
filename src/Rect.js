@@ -39,6 +39,7 @@ export default class Rect{
                 this.#d.copiar(dimencion);}
 
             else if(punto instanceof Punto && dimencion instanceof Punto){
+                this.resetear();
                 const minx = punto.x < dimencion.x ? punto.x : dimencion.x;
                 const miny = punto.y < dimencion.y ? punto.y : dimencion.y;
                 const maxx = punto.x > dimencion.x ? punto.x : dimencion.x;
@@ -78,7 +79,9 @@ export default class Rect{
      * @returns {this}
      */
     copiar(rect){
-        if(rect instanceof Rect) this.editar(...rect.data);
+        if(rect instanceof Rect){
+            this.editar(...rect.data);
+            this.#t = rect.desplazo.copia;}
         return this;}
     /**
      * Posiciona el objeto **`Rect`** desde el centro usando las coordenadas proporcionadas.
@@ -141,6 +144,7 @@ export default class Rect{
     resetear(){
         this.#p.resetear();
         this.#d.resetear();
+        this.#t.resetear();
         this.#eliminarVar();
         return this;}
     
@@ -172,8 +176,8 @@ export default class Rect{
     contiene(punto,matrix = undefined){
         if(!(punto instanceof Punto) || !this.esValido) return false;
         const p = matrix instanceof Matrix ? matrix.localizarPunto(punto):punto
-        const x = p.x >= this.#p.x && p.x <= this.infDer.x;
-        const y = p.y >= this.#p.y && p.y <= this.infDer.y;
+        const x = p.x >= (this.#p.x + this.#t.dx) && p.x <= (this.infDer.x + this.#t.dx);
+        const y = p.y >= (this.#p.y + this.#t.dy) && p.y <= (this.infDer.y + this.#t.dy);
         return x && y;}
     /**
      * Si el parte del rectangulo otorgado cruza por los limites del Rect retorna `true`
@@ -196,7 +200,10 @@ export default class Rect{
     /**
      * Crea y devuelve una copia del objeto
      */
-    get copia(){return new Rect(this.#p, this.#d);}
+    get copia(){
+        const nuevaCopia = new Rect(this.#p, this.#d);
+        nuevaCopia.desplazar(...this.#t.data);
+        return nuevaCopia;}
 
     /**
      * Devuelve la coordenada global ubicada en el centro del rectángulo
@@ -208,7 +215,12 @@ export default class Rect{
      * Devuelve la coordenada local ubicada en el centro del rectángulo
      * @returns {Punto}
      */
-    obtenerCentroLocal(){return new Punto(this.#d.w/2, this.#d.h/2);}
+    obtenerCentroLocal(){return new Punto(this.#p.x + this.#d.w/2,this.#p.y + this.#d.h/2);}
+    /**
+     * Devuelve la coordenada absoluta ubicada en el centro del rectángulo
+     * @returns {Punto}
+    */
+    obtenerCentroAbs(){return new Punto(this.#d.w/2,this.#d.h/2);}
     /**
      * Devuelve la posición del rectángulo
      */
@@ -217,6 +229,10 @@ export default class Rect{
      * Devuelve la dimensión del rectángulo
      */
     get dimencion(){return this.#d;}
+    /**
+     * Devuelve el desplazamiento;
+     */
+    get desplazo(){return this.#t;}
     /**
      * Devuelve la esquina superior izquierda
      */
@@ -259,35 +275,35 @@ export default class Rect{
      * La posicion global en el eje **X**
      * @returns {number}
      */
-    get gx(){return this.#HTML ? this.#HTML.getBoundingClientRect().left : this.#p.x;}
+    get gx(){return this.#HTML ? this.#HTML.getBoundingClientRect().left : this.#p.x + this.#t.dx;}
     /**
      * La posicion global en el eje **Y**
      * @returns {number}
      */
-    get gy(){return this.#HTML ? this.#HTML.getBoundingClientRect().top :this.#p.y;}
+    get gy(){return this.#HTML ? this.#HTML.getBoundingClientRect().top :this.#p.y + this.#t.dy;}
     get w(){return this.#d.w;}
     get h(){return this.#d.h;}
 
     set x(num){
-        if(this.#HTML) num = (this.#HTML.style.left = `${num}px`); this.#p.x = num;}
+        if(this.#HTML) this.#HTML.style.left = `${num + this.#t.dx}px`; this.#p.x = num;}
     /**
      * @param {number} num Posicion en Y
      */
     set y(num){
-        if(this.#HTML) num = (this.#HTML.style.top = `${num}px`);this.#p.y = num;}
+        if(this.#HTML) this.#HTML.style.top = `${num + this.#t.dy}px`; this.#p.y = num;}
     /**
      * @param {number} num Valor positivo y mayor a **0**
      */
-    set w(num){ if(this.#HTML) num = (this.#HTML.style.width = `${num}px`);this.#d.w = num;}
+    set w(num){ if(this.#HTML) this.#HTML.style.width = `${num}px`;this.#d.w = num;}
     /**
      * @param {number} num Valor positivo y mayor a **0**
      */
-    set h(num){ if(this.#HTML) num = (this.#HTML.style.height = `${num}px`);this.#d.h = num;}
+    set h(num){ if(this.#HTML) this.#HTML.style.height = `${num}px`; this.#d.h = num;}
     /**
      * retorna los valores almacenados en un `Array`
      * @returns {[x:number y:number w:number h:number]}
      */
-    get data(){return[this.#p.x,this.#p.y,this.#d.w,this.#d.h];}
+    get data(){return[this.#p.x + this.#t.dx,this.#p.y + this.#t.dy,this.#d.w,this.#d.h];}
     /**
      * Se ancla a un objeto **`HTML`** para que las modificaciones hechas en el rect se vean reflejadas en el objeto _HTML_
      * @param {HTMLElement} elementoHTML 
@@ -296,7 +312,9 @@ export default class Rect{
     raiz(elementoHTML){this.#html(elementoHTML,true);}
 
     #html(nodo,enlazar = false){
-        if(globalThis.HTMLElement && nodo instanceof HTMLElement){            
+        if(globalThis.HTMLElement && nodo instanceof HTMLElement){
+            this.resetear();
+            this.#eliminarVar();          
             if(enlazar){
                 this.#HTML = nodo;
                 console.log(nodo.tagName)}
