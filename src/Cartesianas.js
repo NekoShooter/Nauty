@@ -67,7 +67,7 @@ export function obtenerPuntoMedio(puntoA,puntoB){
  * @returns {Punto | undefined} si algo salio mal retornara undefined
  */
 export function BezierLineal(puntoA,puntoB,tolerancia){// 
-    if(typeof tolerancia == 'Number' && puntoA instanceof Punto && puntoB instanceof Punto)
+    if(typeof tolerancia == 'number' && puntoA instanceof Punto && puntoB instanceof Punto)
         return puntoA.copia.multiplica(1-tolerancia).suma(this.puntoB.copia.multiplica(tolerancia));}
 
 /**

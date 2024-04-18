@@ -49,8 +49,8 @@ export default class Matrix{
     fusionar(matrix){
         if(matrix instanceof Matrix){
             const m11 = this.m11 * matrix.m11 + this.m12 * matrix.m21;
-            const m12 = this.m21 * matrix.m11 + this.m22 * matrix.m21;
-            const m21 = this.m11 * matrix.m12 + this.m12 * matrix.m22;
+            const m12 = this.m11 * matrix.m12 + this.m12 * matrix.m22;
+            const m21 = this.m21 * matrix.m11 + this.m22 * matrix.m21;
             const m22 = this.m21 * matrix.m12 + this.m22 * matrix.m22;
             this.#editarM2x2(m11,m12,m21,m22);
             this.#desplazo.suma(matrix.desplazo);}
@@ -83,7 +83,7 @@ export default class Matrix{
  */
     desplazar(...args){
         const [dx,dy] = args;
-        if(typeof dx == 'Number' && typeof dy == 'Number'){
+        if(typeof dx == 'number' && typeof dy == 'number'){
             this.#desplazo.dx += dx; this.#desplazo.dy += dy;}
         else this.#desplazo.suma(dx);
         return this;}
@@ -95,7 +95,7 @@ export default class Matrix{
     mapea(punto){
         if(!punto) return punto;
         const px = (this.m11 * punto.x) + (this.m21 * punto.y) + this.#desplazo.dx;
-        const py = (this.m12 * punto.x) + (this.m22 * punto.y) + this.#desplazo.dy;
+        const py = (this.m22 * punto.y) + (this.m12 * punto.x) + this.#desplazo.dy;
         return new Punto(px,py);}
 /**
  * Deshace la transformación de la matriz en un punto.
@@ -117,7 +117,10 @@ export default class Matrix{
  * Calcula la matriz inversa de esta matriz.
  * @returns {Matrix}
  */
-    inverso(){return new Matrix(this.m22,-this.m12,-this.m21,this.m11,-this.#desplazo.dx,-this.#desplazo.dy);}
+inverso(){
+    const det = (this.m11*this.m22) - (this.m21 * this.m12);
+    return new Matrix(this.m22/det,this.m12/det,this.m21/det,this.m11/det,this.#desplazo.dx,this.#desplazo.dy);
+}
 /**
  * Devuelve una copia de esta matriz.
  */

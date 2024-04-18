@@ -3,20 +3,30 @@ import Base from "./BASE_NAUTY.js";
 export default class Dimension extends Base{
     tipo = 'Dimension'
     /**
-     * Si el segundo paramero no esta definido se tomara el valor del primer parametro para los dos
-     * @param {number} w - Ancho
-     * @param {number|undefined} h - Altura, si no esta definida tomara el valor del Ancho
+     * @constructor *`Opcional`*
+     * Creara el objeto `Dimension` a partir de la ancho **w** y la altura **h** **Dimension( w , h )** asignadas ó a partir de la dimensión de un objeto `HTML` **Dimension( document.querySelector( 'body' ) )**
+     * @param {[number|HTMLElement number|boolean|undefined]} args
+     * ##### Por coordenadas:
+     * + **args_0 `(w : Number)`** = Ancho\
+     * **args_1 `(h : Number | undefined)`** = Altura, _si la altura no es definida se tomara el valor de el ancho_
+     * ##### Por elemento html:
+     * + **`args_0 : HTMLElement`** = Del elemento HTML tomara la dimensión respectivamente
      */
     constructor(...args){
         const [w,h] = args.length ? args:[0,0];
         super(w,h);
         if(!super.esValido) {
             this.nuevo(w);}}
-    /**
-    * @param {number} w - Ancho
-    * @param {number|undefined} h - Altura
-    * @returns {Dimension}
-    */
+     /**
+     * Inicia el objeto `Dimension` a partir de la ancho **w** y la altura **h** **Dimension( w , h )** asignadas ó a partir de la dimensión de un objeto `HTML` **Dimension( document.querySelector( 'body' ) )**
+     * @param {[number|HTMLElement number|boolean|undefined]} args
+     * ##### Por coordenadas:
+     * + **args_0 `(w : Number)`** = Ancho\
+     * **args_1 `(h : Number | undefined)`** = Altura, _si la altura no es definida se tomara el valor de el ancho_
+     * ##### Por elemento html:
+     * + **`args_0 : HTMLElement`** = Del elemento HTML tomara la dimensión respectivamente
+     * @returns {this}
+     */
     nuevo(...args){
         const [arg_1,arg_2] = args;
         if(globalThis.HTMLElement && arg_1 instanceof HTMLElement){
@@ -62,7 +72,7 @@ export default class Dimension extends Base{
      * @return {Dimension}
      * */
     divide(num){
-        if(typeof num != 'Number') return this;
+        if(typeof num != 'number') return this;
         super.divide(num); 
         return this.rectificar();}
     /**
@@ -71,7 +81,7 @@ export default class Dimension extends Base{
      * @return {Dimension}
      * */
     multiplica(num){
-        if(typeof num != 'Number') return this;
+        if(typeof num != 'number') return this;
         super.multiplica(num); 
         return this.rectificar();}
 

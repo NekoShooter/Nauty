@@ -71,6 +71,15 @@ export default class Rect{
             this.#HTML.style.width = `${this.#d.w}px`;
             this.#HTML.style.height = `${this.#d.h}px`;}
         return this;}
+
+    /**
+     * Copia cada uno de los elementos internos del `Rect` resibido
+     * @param {Rect} rect objeto al cual se le copiaran el valor de sus elementos
+     * @returns {this}
+     */
+    copiar(rect){
+        if(rect instanceof Rect) this.editar(...rect.data);
+        return this;}
     /**
      * Posiciona el objeto **`Rect`** desde el centro usando las coordenadas proporcionadas.
      * @param {number} x Posicion en el eje X.
@@ -78,18 +87,20 @@ export default class Rect{
      * @returns {this}
      */
     posicionarPorElCentro(x,y){
-        return this.editarPosicion(x - (this.#d.w/2),y - (this.#d.h/2));}
+        if(x instanceof Punto){
+            y = x.y;
+            x = x.x;}
+        return this.cambiarPosicion(x - (this.#d.w/2),y - (this.#d.h/2));}
     /**
      * Edita el desplazamiento en el eje **X** y **Y**
      * @param {number|Desplazo} dx Desplazamiento **dx** o un objeto **`Desplazo`**
      * @param {number|undefined} dy Desplazamiento **dy**
      * @returns {this}
      */
-    cambiarDesplazar(dx,dy){
+    desplazar(dx,dy){
         if(dx instanceof Desplazo) this.#t.nuevo(...dx.data);
         else this.#t.nuevo(dx,dy);
-        if(this.#HTML)
-            this.#HTML.style.transform = `translate(${this.#t.dx}px,${this.#t.dy}px)`;
+        this.#modPosHtml();
         return this;}
     /**
      * Edita los parámetros del `Punto` principal
@@ -101,10 +112,13 @@ export default class Rect{
         this.#eliminarVar();
         if(x instanceof Punto) this.#p.bNuevo(...x.data);
         else this.#p.nuevo(x,y);
-        if(this.#HTML) {
-            this.#HTML.style.left = `${this.#p.x}px`;
-            this.#HTML.style.top = `${this.#p.y}px`;}
+        this.#modPosHtml();
         return this;}
+
+    #modPosHtml(){
+        if(!this.#HTML) return;
+        this.#HTML.style.left = `${this.#p.x + this.#t.dx}px`;
+        this.#HTML.style.top = `${this.#p.y + this.#t.dy}px`;}
 
     /**
      * Edita los parametros de la `Dimension` principal
@@ -140,13 +154,13 @@ export default class Rect{
      * @param {Rect} rectangulo
      * @returns {this}
      */
-    expande(rectangulo){
+    expandir(rectangulo){
         if(rectangulo instanceof Rect){
             const x = this.#p.x < rectangulo.x ? this.#p.x : rectangulo.x;
             const y = this.#p.y < rectangulo.y ? this.#p.y : rectangulo.y;
-            const w = this.#d.w > rectangulo.w ? this.#d.w : rectangulo.w;
-            const h = this.#d.h > rectangulo.h ? this.#d.h : rectangulo.h;
-            this.editar(x,y,w,h);}
+            const xp = this.infDer.x > rectangulo.infDer.x ? this.infDer.x : rectangulo.infDer.x;
+            const yp = this.infDer.y > rectangulo.infDer.y ? this.infDer.y : rectangulo.infDer.y;
+            this.editar(x,y,xp - x,yp - y);}
         return this;}
 
     /**
@@ -239,6 +253,8 @@ export default class Rect{
 
     get x(){return this.#p.x;}
     get y(){return this.#p.y;}
+    get dx(){return this.#t.dx;}
+    get dy(){return this.#t.dy;}
     /**
      * La posicion global en el eje **X**
      * @returns {number}
@@ -276,7 +292,7 @@ export default class Rect{
      * Se ancla a un objeto **`HTML`** para que las modificaciones hechas en el rect se vean reflejadas en el objeto _HTML_
      * @param {HTMLElement} elementoHTML 
      */
-
+    
     raiz(elementoHTML){this.#html(elementoHTML,true);}
 
     #html(nodo,enlazar = false){
@@ -286,4 +302,9 @@ export default class Rect{
                 console.log(nodo.tagName)}
                 
             this.#d.nuevo(nodo.offsetWidth,nodo.offsetHeight);
-            this.#p.nuevo(nodo.offsetLeft,nodo.offsetTop);} }}
+            this.#p.nuevo(nodo.offsetLeft,nodo.offsetTop);} }
+    /**
+     * Devuelve el objeto `HTMLElement` si esta almacenado de lo contrario `undefined`
+     * @returns {HTMLElement | undefined}
+     */
+    get nodo(){return this.#HTML;}}

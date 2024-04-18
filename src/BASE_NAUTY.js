@@ -176,4 +176,4 @@ export default class Base{
     /**
      * Si los el valores introducidos son de tipo **Number** `true ✔`  de lo contrario sera `false ✖`
      */
-    get esValido(){return typeof this.z0 == 'Number' && typeof this.z1 == 'Number';}}
+    get esValido(){return typeof this.z0 == 'number' && typeof this.z1 == 'number';}}
