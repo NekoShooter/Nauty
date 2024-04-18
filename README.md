@@ -725,6 +725,43 @@ console.log(dimension_1);
 ​   > <prototype>: Object { … }
 ```
 ---
+#### 🔸 rectificaW:
+Todo valor negativo en el ancho sera sustituido por **0**.
+
+``` JavaScript
+const dimension_1 = new Dimension;
+dimension_1.bNuevo(-25,25); // bNuevo = sin restricciones para mas info ver clase Base
+console.log("original",dimension_1);
+
+dimension_1.rectificaW();
+console.log("rectificaW",dimension_1);
+```
+###### terminal:
+```
+original > Object { z0: -25, z1: 25, tipo: "Dimension" }
+
+rectificaW > Object { z0: 0, z1: 25, tipo: "Dimension" }
+
+```
+---
+#### 🔸 rectificaH:
+Todo valor negativo en la altura sera sustituido por **0**.
+``` JavaScript
+const dimension_1 = new Dimension;
+dimension_1.bNuevo(-25,-25); // bNuevo = sin restricciones para mas info ver clase Base
+console.log("original",dimension_1);
+
+dimension_1.rectificaH();
+console.log("rectificaH",dimension_1);
+```
+###### terminal:
+```
+original > Object { z0: -25, z1: -25, tipo: "Dimension" }
+
+rectificaH > Object { z0: -25, z1: 0, tipo: "Dimension" }
+
+```
+---
 #### 🔹 esValido:
 El valor de una dimencion debe ser mayor a **0** para que sea `true ✔` de lo contrario sera invalido `false ✖`
 
@@ -1100,8 +1137,27 @@ console.log(rect_1.data);
 Devuelve la coordenada global ubicada en el centro del rectángulo.
 ``` JavaScript
 const rect_1 = new Rect(50,50,50,50);
+rect_1.desplazar(10,10);
 
 const centro = rect_1.obtenerCentro();
+console.log(centro);
+```
+###### terminal:
+```
+> Object { z0: 85 , z1: 85 , tipo: "Punto" }
+    z0: 85
+    z1: 85
+    tipo: "Punto"
+​   > <prototype>: Object { … }
+```
+---
+#### 🔸 obtenerCentroLocal:
+Devuelve la coordenada local ubicada en el centro del rectángulo.
+``` JavaScript
+const rect_1 = new Rect(50,50,50,50);
+rect_1.desplazar(10,10);
+
+const centro = rect_1.obtenerCentroLocal();
 console.log(centro);
 ```
 ###### terminal:
@@ -1113,12 +1169,13 @@ console.log(centro);
 ​   > <prototype>: Object { … }
 ```
 ---
-#### 🔸 obtenerCentroLocal:
-Devuelve la coordenada local ubicada en el centro del rectángulo.
+#### 🔸 obtenerCentroAbs:
+Devuelve la coordenada absoluta ubicada en el centro del rectángulo.
 ``` JavaScript
 const rect_1 = new Rect(50,50,50,50);
+rect_1.desplazar(10,10);
 
-const centro = rect_1.obtenerCentroLocal();
+const centro = rect_1.obtenerCentroAbs();
 console.log(centro);
 ```
 ###### terminal:
@@ -1139,15 +1196,6 @@ rect_1.raiz(div);
 
 ```
 ---
-#### 🔸 raiz:
-Ancla el rectángulo a un objeto HTML para que las modificaciones hechas en el Rect se vean reflejadas en el objeto HTML.
-``` JavaScript
-const div = document.querySelector('div');
-const rect_1 = new Rect;
-rect_1.raiz(div);
-
-```
----
 #### 🔹 area:
 Devuelve el área total del rectángulo.
 ``` JavaScript
@@ -1157,6 +1205,26 @@ console.log(rect_1.area);
 ###### terminal:
 ```
 2500
+```
+
+#### 🔹 supDer , supIzq , infDer , infIzq:
+Devuelve las coordenadas de las esquinas del rectángulo.
+``` JavaScript
+const rect = new Rect(0,25,50,100);
+console.log('supDer',rect.supDer);
+console.log('supIzq',rect.supIzq);
+console.log('infDer',rect.infDer);
+console.log('infIzq',rect.infIzq);
+```
+###### terminal:
+```
+supDer > Object { z0: 50, z1: 25, tipo: "Punto" }
+
+supIzq > Object { z0: 0, z1: 25, tipo: "Punto" }
+
+infDer > Object { z0: 50, z1: 125, tipo: "Punto" }
+
+infIzq > Object { z0: 0, z1: 125, tipo: "Punto" }
 ```
 
 ### 🔹 getters y setters:
@@ -1245,7 +1313,7 @@ console.log(matrix_1.str);
 "matrix(2, 0, 0, 2, 0, 0)"
 ```
 #### 🔸 desplazar:
-Desplaza la matriz en los ejes **X** e **Y** por los valores proporcionados.
+Desplaza la matriz en los ejes **X** e **Y** con los valores proporcionados.
 ``` JavaScript
 const div_1 = document.querySelector('.div_1');
 const div_2 = document.querySelector('.div_2');
@@ -1277,7 +1345,7 @@ div_2.style.transform = matrix_1.str;
 
 ---
 #### 🔸 inverso:
-Calcula la matriz inversa de esta matriz.
+Calcula y devuelve una nueva matriz inversa de la matriz original.
 ``` JavaScript
 const div_1 = document.querySelector('.div_1');
 const div_2 = document.querySelector('.div_2');
@@ -1304,10 +1372,26 @@ div_2.style.transform = matrix_2.str;
 
 div_3.style.transform = matrix_2.fusionar(matrix_1).str;
 ```
-<p align="center"><a href="#"><img src="https://i.ibb.co/8Kgj0hD/m3.png" alt="imagen demo de matrix.inverso"></a><p/>
+<p align="center"><a href="#"><img src="https://i.ibb.co/8Kgj0hD/m3.png" alt="imagen demo de matrix.fusionar"></a><p/>
 
+---
+#### 🔸 resetear:
+Restablece la matriz a una matriz de identidad y el desplazamiento a cero.
+``` JavaScript
+const div_1 = document.querySelector('.div_1');
+const div_2 = document.querySelector('.div_2');
+
+const matrix_1 = new Matrix(0.35, -0.35, 0.35, 0.35, 100, 0);
+div_1.style.transform = matrix_1.str;
+
+matrix_1.resetear()
+div_2.style.transform = matrix_1.str;
+```
+<p align="center"><a href="#"><img src="https://i.ibb.co/gtk3hmt/m4.jpg" alt="imagen demo de matrix.resetear"></a><p/>
+
+---
 #### 🔸 copiar:
-Copia los valores de otra matriz en esta matriz.
+Copia los valores de otra matriz en la matriz original.
 ``` JavaScript
 const matrix_1 = new Matrix(0.7, -0.7, 0.7, 0.7, 50, -50);
 console.log(matrix_1.data);
@@ -1325,7 +1409,7 @@ console.log(matrix_1.data);
 ```
 ---
 #### 🔹 copia:
-Devuelve una copia de esta matriz.
+Crea y devuelve una copia de la matriz original.
 ``` JavaScript
 const matrix_1 = new Matrix(0.7, -0.7, 0.7, 0.7, 50, -50);
 console.log(matrix_1.data);
@@ -1346,16 +1430,63 @@ Aplica la transformación de la matriz a un punto en el plano.
 const matrix_1 = new Matrix(0.7, -0.7, 0.7, 0.7, 50, -50);
 
 const punto_original = new Punto(25,25);
-console.log(punto_original.data);
+console.log("punto original",punto_original.data);
 
 const punto_mapeado = matrix_1.mapea(punto_original);
-console.log(punto_mapeado.data);
+console.log("punto mapeado",punto_mapeado.data);
 ```
 ###### terminal:
 ```
-> Array [ 25 , 25 ]
+punto original > Array [ 25 , 25 ]
 
-> Array [ 50, -15 ]
+punto mapeado > Array [ 50, -15 ]
+```
+---
+#### 🔸 desMapea:
+Aplica la transformación de la matriz a un punto en el plano.
+``` JavaScript
+const matrix_1 = new Matrix(0.7, -0.7, 0.7, 0.7, 50, -50);
+
+const punto_mapeado = new Punto(50,-15);
+console.log("punto mapeado" ,punto_mapeado.data);
+
+const punto_original = matrix_1.desMapea(punto_mapeado);
+console.log("punto original", punto_original.data);
+```
+###### terminal:
+```
+punto mapeado > Array [ 50, -15 ]
+
+punto original > Array [ 25 , 25 ]
+```
+
+#### 🔸 esIgual:
+Verifica si esta matriz es igual a otra matriz.
+``` JavaScript
+const matrix_1 = new Matrix(0.7, -0.7, 0.7, 0.7, 50, -50);
+const matrix_2 = new Matrix(2, 0, 0, 2, 10, 10);
+const matrix_3 = new Matrix(0.7, -0.7, 0.7, 0.7, 50, -50);
+
+console.log("la matriz_1 es igual al a matriz_3 =" ,matrix_1.esIgual(matrix_3));
+
+console.log("la matriz_1 es igual al a matriz_2 =" ,matrix_1.esIgual(matrix_2));
+```
+###### terminal:
+```
+la matriz_1 es igual al a matriz_3 = true
+
+la matriz_1 es igual al a matriz_2 = false
+```
+
+#### 🔹 Propiedades:
+``` JavaScript
+const matrix_1 = new Matrix(0.7, -0.7, 0.7, 0.7, 50, -50);
+matrix_1.m11 // 0.7: Valor de la posición (1,1) de la matriz.
+matrix_1.m21 // -0.7: Valor de la posición (2,1) de la matriz.
+matrix_1.m12 // 0.7: Valor de la posición (1,2) de la matriz.
+matrix_1.m22 // 0.7: Valor de la posición (2,2) de la matriz.
+matrix_1.dx // 50: Desplazamiento en el eje x.
+matrix_1.dy // -50: Desplazamiento en el eje y.
 ```
 <br/>
 </details>
