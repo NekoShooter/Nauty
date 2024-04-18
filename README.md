@@ -966,17 +966,17 @@ console.log(rect_1.dimension);
 ​   > <prototype>: Object { … }
 ```
 ---
-#### 🔸 cambiarDesplazo:
+#### 🔸 desplazar:
 Edita el desplazamiento en el eje **X** y **Y**
 ``` JavaScript
 const rect_1 = new Rect(100,100,100,100);
 console.log(rect_1.data);
 
-rect_1.cambiarDesplazo(50,50);
+rect_1.desplazar(50,50);
 console.log(rect_1.data);
 
 const nuevaDesplazo = new Desplazo(20,20);
-rect_1.cambiarDesplazo(nuevaDesplazo)
+rect_1.desplazar(nuevaDesplazo)
 console.log(rect_1.data);
 ```
 ###### terminal:
@@ -1021,14 +1021,14 @@ console.log(rect_1.data);
 
 ```
 ---
-#### 🔸 expande:
+#### 🔸 expandir:
 Expande el objeto `Rect` asta los limites del rectángulo dado
 ``` JavaScript
 const rect_1 = new Rect(0,0,50,50);
 console.log(rect_1.data);
 
 const rect_2 = new Rect(50,50,50,50);
-rect_1.expande(rect_2)
+rect_1.expandir(rect_2)
 console.log(rect_1.data);
 ```
 ###### terminal:
