@@ -62,7 +62,7 @@ export default class Matrix{
  */
     esIgual(matrix){
         if(!(matrix instanceof Matrix)) return false;
-        return this.m11 == matrix.m11 && this.m12 == matrix.m12 && this.m21 == matrix.m21 && this.m22 == matrix.m22 && this.#desplazo.dx == matrix.dx && this.#desplazo.dx == matrix.dy;}
+        return this.m11 == matrix.m11 && this.m12 == matrix.m12 && this.m21 == matrix.m21 && this.m22 == matrix.m22 && this.#desplazo.dx == matrix.dx && this.#desplazo.dy == matrix.dy;}
 /**
  * Copia los valores de la matriz proporcionada en esta matriz.
  * @param {Matrix} matrix 
