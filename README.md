@@ -1,6 +1,7 @@
 <h1 align="center">🧭 Nauty 📐<h1/>
 
-<p align="center"><a href="#"><img src="https://i.ibb.co/M2q680C/Taimy-sm.png" alt="imagen representativa de Taimy"></a><p/>
+<p align="center"><a href="#"><img src="https://i.ibb.co/zS2f3SD/nauty-sm.png" alt="imagen representativa de Nauty"></a><p/>
+
 
 ## ¿Qué es Nauty?
 Es un conjunto de herramientas para trabajar con elementos geométricos en un plano cartesiano, permitiendo crear, manipular y transformar objetos de manera eficiente y precisa. Es especialmente útil para aplicaciones gráficas, juegos, visualizaciones de datos y cualquier otra tarea que involucre coordenadas y geometría en el plano.  
@@ -10,8 +11,7 @@ Es un conjunto de herramientas para trabajar con elementos geométricos en un pl
 ``` bash
 npm i nauty
 ```
-
-
+---
 ### **Contenido**
 
 #### Objetos:
@@ -1324,7 +1324,7 @@ div_1.style.transform = matrix_1.str;
 matrix_1.desplazar(200,200);
 div_2.style.transform = matrix_1.str;
 ```
-<p align="center"><a href="#"><img src="https://i.ibb.co/wLdZQTd/m1-1.jpg" alt="imagen demo de matrix.desplazar"></a><p/>
+<p align="center"><a href="#"><img src="https://i.ibb.co/YkHk00L/m1.jpg" alt="imagen demo de matrix.desplazar"></a><p/>
 
 ---
 #### 🔹 desplazo:
@@ -1341,7 +1341,7 @@ desplazo.dx = 200;
 desplazo.dy = 200;
 div_2.style.transform = matrix_1.str;
 ```
-<p align="center"><a href="#"><img src="https://i.ibb.co/wLdZQTd/m1-1.jpg" alt="imagen demo de matrix.desplazar"></a><p/>
+<p align="center"><a href="#"><img src="https://i.ibb.co/YkHk00L/m1.jpg" alt="imagen demo de matrix.desplazar"></a><p/>
 
 ---
 #### 🔸 inverso:
@@ -1356,7 +1356,7 @@ div_1.style.transform = matrix_1.str;
 const matrix_inversa = matrix_1.inverso();
 div_2.style.transform = matrix_inversa.str;
 ```
-<p align="center"><a href="#"><img src="https://i.ibb.co/0cXXJfb/m2.jpg" alt="imagen demo de matrix.inverso"></a><p/>
+<p align="center"><a href="#"><img src="https://i.ibb.co/hLP5XZP/m2.jpg" alt="imagen demo de matrix.inverso"></a><p/>
 
 #### 🔸 fusionar:
 Sustituye los valores de la `matriz A` por la combinacion de la `matriz A` con la `matriz B` de manera que aplica primero la transformación de la `matriz A` y luego la transformación de la `matriz B`.
@@ -1364,7 +1364,7 @@ Sustituye los valores de la `matriz A` por la combinacion de la `matriz A` con l
 const div_1 = document.querySelector('.div_1');
 const div_2 = document.querySelector('.div_2');
 const div_3 = document.querySelector('.div_3');
-const matrix_1 = new Matrix(0.7, -0.7, 0.7, 0.7, 50, -50);
+const matrix_1 = new Matrix(0.7, -0.7, 0.7, 0.7, 150, 150);
 const matrix_2 = new Matrix(.5, 0, 0, .5, 50, 50);
 
 div_1.style.transform = matrix_1.str;
@@ -1372,7 +1372,7 @@ div_2.style.transform = matrix_2.str;
 
 div_3.style.transform = matrix_2.fusionar(matrix_1).str;
 ```
-<p align="center"><a href="#"><img src="https://i.ibb.co/8Kgj0hD/m3.png" alt="imagen demo de matrix.fusionar"></a><p/>
+<p align="center"><a href="#"><img src="https://i.ibb.co/QvsgxDx/m3.jpg" alt="imagen demo de matrix.fusionar"></a><p/>
 
 ---
 #### 🔸 resetear:
@@ -1387,7 +1387,7 @@ div_1.style.transform = matrix_1.str;
 matrix_1.resetear()
 div_2.style.transform = matrix_1.str;
 ```
-<p align="center"><a href="#"><img src="https://i.ibb.co/gtk3hmt/m4.jpg" alt="imagen demo de matrix.resetear"></a><p/>
+<p align="center"><a href="#"><img src="https://i.ibb.co/fSgL193/m4.jpg" alt="imagen demo de matrix.resetear"></a><p/>
 
 ---
 #### 🔸 copiar:
@@ -1490,13 +1490,46 @@ matrix_1.dy // -50: Desplazamiento en el eje y.
 ```
 <br/>
 </details>
+
+### Transformadores
+
+Este módulo proporciona funciones para realizar transformaciones geométricas en un plano bidimensional, como rotaciones, escalas y zoom.
+<details>
+  <summary><em>Haz click para desplegar mas informacion...</em></summary> 
+
+#### rotar:
+
+Realiza una rotación en el plano con el ángulo especificado alrededor del punto de pivote, manteniendo la precisión especificada.
+
+- `grados`: El ángulo de rotación en grados.
+- `pivote` _(opcional)_: El punto alrededor del cual se realiza la rotación.
+- `rect` _(opcional)_: El rectángulo que define el límite de la rotación.
+- `presicion` _(opcional)_: La precisión decimal para redondear los resultados (por defecto es 3).
+
+Devuelve una instancia de `Matrix` que representa la transformación de rotación.
+
+``` JavaScript
+const div_1 = document.querySelector('.div_1');
+
+let grados = 0;
+
+window.addEventListener('wheel',e=>{
+    grados += e.deltaY > 0 ? 1 : -1;
+    const matrix = rotar(grados);
+    div_1.style.transform = matrix.str;
+});
+```
+<p align="center"><a href="#"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3NqczEzMjZkMmtzOW54MnZycWw1MXp1NWh0YndpOW82MW1ycDhzZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/0GllHGGVWcF3C2njFB/source.gif" alt="demo 1 de Nauty-rotar"></a><p/>
+
+
+
 <br/>
 </details>
 
+### Funciones Cartecianas
 
 <details>
   <summary><em>Haz click para desplegar mas informacion...</em></summary> 
 <br/>
 </details>
 
-###### *Todos los personajes presentados en esta librería fueron diseñados y creados por mí ~ [Neko ★ Shooter.](https://github.com/NekoShooter)*
