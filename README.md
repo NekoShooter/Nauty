@@ -23,21 +23,21 @@ npm i nauty
 + [Matrix](#matrix)
 
 #### Transformadores:
-+ [rotar](#rotar)
-+ [escala](#escala)
-+ [zoom](#zoom)
++ [rotar](#transformadores-1)
++ [escala](#transformadores-1)
++ [zoom](#transformadores-1)
 
 #### Funciones Cartecianas:
-+ [obtenerCuadrante]()
-+ [obtenerPuntoMedio]()
-+ [BezierLineal]()
-+ [obtenerPendiente]()
-+ [rectificarAngulo]()
-+ [obtenerAngulo]()
-+ [obtenerLongitud]()
-+ [obtenerPuntoRotado]()
-+ [aRadial]()
-+ [aGrados]()
++ [obtenerCuadrante](#funciones-cartecianas-1)
++ [obtenerPuntoMedio](#funciones-cartecianas-1)
++ [BezierLineal](#funciones-cartecianas-1)
++ [obtenerPendiente](#funciones-cartecianas-1)
++ [rectificarAngulo](#funciones-cartecianas-1)
++ [obtenerAngulo](#funciones-cartecianas-1)
++ [obtenerLongitud](#funciones-cartecianas-1)
++ [obtenerPuntoRotado](#funciones-cartecianas-1)
++ [aRadial](#funciones-cartecianas-1)
++ [aGrados](#funciones-cartecianas-1)
 
 #### Constantes:
 
@@ -1493,20 +1493,22 @@ matrix_1.dy // -50: Desplazamiento en el eje y.
 
 ### Transformadores
 
-Este módulo proporciona funciones para realizar transformaciones geométricas en un plano bidimensional, como rotaciones, escalas y zoom.
+Son un grupo de funciones que se utilizan para realizar transformaciones geométricas en un plano bidimensional, como rotaciones, escalas y zoom.
 <details>
   <summary><em>Haz click para desplegar mas informacion...</em></summary> 
 
-#### rotar:
+#### ⚙ rotar:
 
-Realiza una rotación en el plano con el ángulo especificado alrededor del punto de pivote, manteniendo la precisión especificada.
+Realiza una rotación en el plano con el ángulo especificado alrededor del punto de pivote, manteniendo la precisión especificada.  
+`rotar( grados , pivote , referencia , presicion = 3)`
 
 - `grados`: El ángulo de rotación en grados.
 - `pivote` _(opcional)_: El punto alrededor del cual se realiza la rotación.
-- `rect` _(opcional)_: El rectángulo que define el límite de la rotación.
+- `referencia` _(opcional)_: Es el punto de referencia al cual el pivote afectara, puede usarse ` el centro del rect` al cual la matrix aplicara la transformacion.
 - `presicion` _(opcional)_: La precisión decimal para redondear los resultados (por defecto es 3).
 
-Devuelve una instancia de `Matrix` que representa la transformación de rotación.
+_Devuelve una instancia de `Matrix` que representa la transformación de rotación._
+###### Ejemplo 1:
 
 ``` JavaScript
 const div_1 = document.querySelector('.div_1');
@@ -1521,6 +1523,83 @@ window.addEventListener('wheel',e=>{
 ```
 <p align="center"><a href="#"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3NqczEzMjZkMmtzOW54MnZycWw1MXp1NWh0YndpOW82MW1ycDhzZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/0GllHGGVWcF3C2njFB/source.gif" alt="demo 1 de Nauty-rotar"></a><p/>
 
+###### Ejemplo 2:
+
+``` JavaScript
+const pos_global = new Punto(document.querySelector(".contenedor"),true);//solo para obtener la posicion global
+const marcador = new Rect(document.querySelector(".marcador"),true);
+const rect = new Rect(document.querySelector(".div_1"),true);
+
+const pivote = new Punto(0,0);
+marcador.posicionarPorElCentro(pivote);
+
+let grados = 0;
+
+window.addEventListener('wheel',e=>{
+    grados += e.deltaY > 0 ? 1 : -1;
+    const matrix = rotar(grados,pivote,rect.obtenerCentro());
+    rect.nodo.style.transform = matrix.str;
+});
+
+window.addEventListener('click',e=>{
+    console.info(e.clientX,e.clientY)
+    pivote.x = e.clientX - pos_global.x;
+    pivote.y = e.clientY - pos_global.y;
+    marcador.posicionarPorElCentro(pivote);
+});
+```
+<p align="center"><a href="#"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMWE4cDZqazMzM3Z2ZmI1NmRuZ2locGtyMnJnM210ZTZndnN2bTdodCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cqcm4Ld6api3FmW6SB/source.gif" alt="demo 2 de Nauty-rotar"></a><p/>
+
+---
+#### ⚙ escala:
+
+Realiza una escala en el plano bidimensional.  
+`escala( escalaX , escalaY )`
+
+- `escalaX`: El factor de escala en el eje x (por defecto es 1).
+- `escalaY`: El factor de escala en el eje y (por defecto es 1).
+
+_Devuelve una instancia de `Matrix` que representa la transformación de escala._
+``` JavaScript
+const div_1 = document.querySelector(".div_1");
+const div_2 = document.querySelector(".div_2");
+const div_3 = document.querySelector(".div_3");
+
+const escala_1 = escala(1,1);
+const escala_2 = escala(2,2);
+const escala_3 = escala(3,3);
+
+div_1.style.transform = escala_1.str;
+div_2.style.transform = escala_2.str;
+div_3.style.transform = escala_3.str;
+```
+<p align="center"><a href="#"><img src="https://i.ibb.co/ZVvJRXL/escala.jpg" alt="demo de Nauty-escala"></a><p/>
+
+---
+
+#### ⚙ zoom:
+
+Realiza un zoom en el plano bidimensional.  
+`zoom(distancia, foco = .01)`
+
+- `distancia`: La distancia de zoom.
+- `foco`: El factor de foco para el zoom (por defecto es 0.01).
+
+> Aunque parezaca similar a `escala` la ventaja esta en que `zoom` aplica sus efectos de forma mas progresiva por  lo que es menos brusco que _escala_.
+
+_Devuelve una instancia de `Matrix` que representa la transformación de zoom._
+``` JavaScript
+const div_1 = document.querySelector(".div_1");
+
+let ampliacion = 0;
+
+window.addEventListener('wheel',e=>{
+    ampliacion += e.deltaY > 0 ? 1 : -1;
+    const matrix = zoom(ampliacion);
+    div_1.style.transform = matrix.str;
+});
+```
+<p align="center"><a href="#"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWh6ZGh2YnByM2RndGo1MDY2cnNoNGducGk1czh4MWxoY3Y1bmZ1MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9i9w1VIQ3tbmo5iO5K/source.gif" alt="demo de Nauty-zoom"></a><p/>
 
 
 <br/>
@@ -1528,8 +1607,172 @@ window.addEventListener('wheel',e=>{
 
 ### Funciones Cartecianas
 
+Funciones para trabajar con puntos en un plano cartesiano, como la determinación de cuadrantes, cálculo de ángulos, longitudes y rotaciones.
+
+
 <details>
-  <summary><em>Haz click para desplegar mas informacion...</em></summary> 
+  <summary><em>Haz click para desplegar mas informacion...</em></summary>
+
+#### ⚙ obtenerCuadrante:
+
+Encuentra el cuadrante cartográfico de un punto con respecto a un punto de referencia.  
+`obtenerCuadrante(origen, punto)`
+
+- `origen`: Punto de origen que actúa como el centro del plano cartesiano.
+- `punto`: Punto a localizar en el cuadrante.
+
+> Devuelve un valor numérico que representa el cuadrante del punto definido por la constante `__cuadrante`.
+``` JavaScript
+const origen = new Punto(0,0);
+const punto  = new Punto(30,30);
+const CUADRANTE = obtenerCuadrante(origen, punto)
+
+if(__cuadrante.c1 == CUADRANTE){
+    console.log('cuadrante 1 valor = 0x1');
+}
+else if(__cuadrante.c2 == CUADRANTE){
+    console.log('cuadrante 2 valor = 0x2');
+}
+else if(__cuadrante.c3 == CUADRANTE){
+    console.log('cuadrante 3 valor = 0x4');
+}
+else if(__cuadrante.c4 == CUADRANTE){
+    console.log('cuadrante 4 valor = 0x8');
+}
+else{ //__cuadrante.o
+    console.log('centro/origen valor = 0')
+}
+```
+###### terminal:
+```
+cuadrante 4 valor = 0x8
+```
+<p align="center"><a href="#"><img src="https://www.geogebra.org/resource/FYATZx8k/kVD3PbXybQ7exuMj/material-FYATZx8k.png" alt="representacion de los cuadrantes de un plano carteciano"></a><p/>  
+
+---
+
+#### ⚙ obtenerPuntoMedio:
+
+Obtiene el punto medio entre dos puntos dados.  
+`obtenerPuntoMedio(puntoA, puntoB)`
+
+- `puntoA`: Primer punto.
+- `puntoB`: Segundo punto.
+
+> Devuelve un [Punto](#punto) que representa el punto medio entre los dos puntos dados.
+``` JavaScript
+const puntoA = new Punto(100,100);
+const puntoB = new Punto(200,200);
+const puntoC  = obtenerPuntoMedio(puntoA,puntoB);
+
+console.log("puntoA =",puntoA.data);
+console.log("puntoB =",puntoB.data);
+console.log("puntoC =",puntoC.data);
+```
+###### terminal:
+```
+puntoA = > Array [ 100, 100 ]
+
+puntoB = > Array [ 200, 200 ]
+
+puntoC = > Array [ 150, 150 ]
+```
+---
+#### ⚙ obtenerPendiente
+
+Obtiene la pendiente entre dos puntos dados.  
+`obtenerPendiente(puntoA, puntoB)`
+
+- `puntoA`: Primer punto.
+- `puntoB`: Segundo punto.
+
+> Devuelve el valor de la pendiente.
+<p align="center"><a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgyXWDXnkgeQRUUzYwmXral32XMaFVEe0Ae-tIlZ3PNQ&s" alt="formula de la pendiente entre dos puntos"></a><p/>
+
+#### ⚙ obtenerLongitud:
+
+Retorna la longitud que existe entre dos puntos.  
+`obtenerLongitud(ancla, punto)`
+
+- `ancla`: El punto de referencia.
+- `punto`: El punto de destino.
+
+> Devuelve la longitud entre los dos puntos.
+``` JavaScript
+const puntoA = new Punto(100,100);
+const puntoB = new Punto(200,200);
+const longitud  = obtenerLongitud(puntoA,puntoB);
+
+console.log("la distancia entre A y B es: ",longitud);
+```
+###### terminal:
+```
+la distancia entre A y B es:  141.4213562373095
+```
+---
+#### ⚙ obtenerAngulo:
+
+Obtiene el ángulo entre dos puntos.  
+`obtenerAngulo(origen, punto)`
+
+- `origen`: El punto de referencia.
+- `punto`: El punto de destino.
+
+> Devuelve el ángulo entre los dos puntos.
+``` JavaScript
+const origen = new Punto(100,100);
+const puntoA = new Punto(200,200);
+const angulo  = obtenerAngulo(origen,puntoA);
+
+console.log("el angulo del puntoA con respecto al origen es: ",angulo);
+```
+###### terminal:
+```
+el angulo del puntoA con respecto al origen es:  315
+```
+---
+#### ⚙ BezierLineal:`
+
+Obtiene el punto en la línea formada por los dos puntos dados a partir de una tolerancia.  
+`BezierLineal(puntoA, puntoB, tolerancia)`
+
+- `puntoA`: Primer punto.
+- `puntoB`: Segundo punto.
+- `tolerancia`: La tolerancia debe ser de **0** a **1**.
+
+> Devuelve un punto en la línea.
+
+``` JavaScript
+const rect = new Rect(document.querySelector(".div_1"),true);
+const pin_1 = new Rect(document.querySelector(".pin_1"),true);
+const pin_2 = new Rect(document.querySelector(".pin_2"),true);
+
+const puntoA = new Punto(-50,-50);
+const puntoB = new Punto(400,300);
+pin_1.posicionarPorElCentro(puntoA);
+pin_2.posicionarPorElCentro(puntoB);
+
+const unidad = puntoB.y - puntoA.y;
+let recorrido = 0;
+
+rect.posicionarPorElCentro(puntoB);
+
+window.addEventListener('wheel',e=>{
+    recorrido += e.deltaY ? 1 : -1;
+    let tolerancia = Math.abs((unidad - recorrido)/unidad);
+    
+    if(tolerancia > 1){
+        recorrido = 0;
+        tolerancia = 1};
+
+    const p = BezierLineal(puntoA,puntoB,tolerancia);
+    rect.posicionarPorElCentro(p);
+});
+```
+
+<p align="center"><a href="#"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYngzcHduaHJkaml3cXN3cHNzYXMzcDk2aWNvMmR1eWxzZGR0MmR5aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xTO7TBBmsqwrE2Kq0x/source.gif" alt="demo Nauty - BezierLineal"></a><p/>
+
 <br/>
 </details>
 
+###### *Todos los personajes presentados en esta librería fueron diseñados y creados por mí ~ [Neko ★ Shooter.](https://github.com/NekoShooter)*
