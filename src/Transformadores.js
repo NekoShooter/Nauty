@@ -1,28 +1,26 @@
 import Matrix from "./Matrix.js";
 import {aRadial} from "./Cartesianas.js";
 import Punto from "./Punto.js";
-import Rect from "./Rect.js";
 /**
  * Realiza una rotación en el plano con el ángulo especificado alrededor del punto de pivote, manteniendo la precisión especificada.
  * Devuelve una instancia de **`Matrix`** que representa la transformación de **rotación**.
  * @param {number} grados El ángulo de rotación en grados.
  * @param {Punto|undefined} pivote _(opcinal)_ El punto alrededor del cual se realiza la rotación.
- * @param {Rect|undefined} rect _(opcinal)_ El rectángulo que define el límite de la rotación.
+ * @param {Punto|undefined} referencia _(opcinal)_ Es el punto de referencia al cual el pivote afetara, puede usarse el centro del rect al cual la matrix aplicara la transformacion.
  * @param {number} presicion _(opcinal)_ La precisión decimal para redondear los resultados (por defecto es 3).
  * @returns {Matrix}
  */
-export function rotar(grados,pivote,rect,presicion = 3){
+export function rotar(grados,pivote,referencia,presicion = 3){
     const cos = Math.cos(aRadial(grados));
     const sen = Math.sin(aRadial(grados));
 
     const rot = new Matrix(cos,-sen, sen,cos);
 
-    if(pivote instanceof Punto && rect instanceof Rect){
+    if(pivote instanceof Punto && referencia instanceof Punto){
 
-        const centroRect = rect.obtenerCentro();
-        if(centroRect.esIgual(pivote) || cos == 1) return rot;
+        if(referencia.esIgual(pivote) || cos == 1) return rot;
 
-        const pR = pivote.copia.resta(centroRect);
+        const pR = pivote.copia.resta(referencia);
         const pT = rot.desMapea(pR);
 
         rot.desplazo.bCopiar(pR).bResta(pT);
