@@ -139,7 +139,7 @@ export function obtenerLongitud(origen,punto){
     return 0;}
 
 /**
- * Devuelve la posición del punto rotado a partir del punto ancla como referencia
+ * Devuelve la posición del punto rotado a partir del punto de origen como referencia
  * @param {Punto} origen - punto de referencia
  * @param {Punto} punto - punto que será rotado a partir de la referencia
  * @param {number} angulo - ángulo de rotación en el rango de 0 a 360 grados
@@ -156,4 +156,4 @@ export function obtenerPuntoRotado(origen,punto,angulo){
 
     const Rx = Math.sin(aRadial(x)) * longitud;
     const Ry = Math.sin(aRadial(y)) * longitud;
-    return new Punto((ancla.x + Rx), (ancla.y - Ry));}
+    return new Punto((origen.x + Rx), (origen.y - Ry));}
