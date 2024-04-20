@@ -33,7 +33,7 @@ export default class Punto extends Base {
     nuevo(...args){
         const [arg_1,arg_2] = args;
         if(globalThis.HTMLElement && arg_1 instanceof HTMLElement){
-            if(arg_2)this.bNuevo(arg_1.getBoundingClientRect().left,arg_1.getBoundingClientRect().left);
+            if(arg_2)this.bNuevo(arg_1.getBoundingClientRect().left,arg_1.getBoundingClientRect().top);
             else this.bNuevo(arg_1.offsetLeft,arg_1.offsetTop);}
         else super.nuevo(arg_1,arg_2);        
         return this;}
