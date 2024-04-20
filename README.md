@@ -38,11 +38,7 @@ npm i nauty
 + [obtenerPuntoRotado](#funciones-cartecianas-1)
 + [aRadial](#funciones-cartecianas-1)
 + [aGrados](#funciones-cartecianas-1)
-
-#### Constantes:
-
-+ [__cuadrante]()
-
+---
 
 ### La Base:  
 
@@ -1613,6 +1609,16 @@ Funciones para trabajar con puntos en un plano cartesiano, como la determinació
 <details>
   <summary><em>Haz click para desplegar mas informacion...</em></summary>
 
+#### ▫ __cuadrante:
+Constante que contiene valores numéricos para representar los cuadrantes de un plano cartesiano
+``` JavaScript
+__cuadrante.c1 // cuadrante 1 valor = 0x1
+__cuadrante.c2 // cuadrante 2 valor = 0x2
+__cuadrante.c3 // cuadrante 3 valor = 0x4
+__cuadrante.c4 // cuadrante 4 valor = 0x8
+__cuadrante.o  // centro/origen valor = 0
+```
+---
 #### ⚙ obtenerCuadrante:
 
 Encuentra el cuadrante cartográfico de un punto con respecto a un punto de referencia.  
@@ -1691,7 +1697,7 @@ Obtiene la pendiente entre dos puntos dados.
 
 #### ⚙ obtenerLongitud:
 
-Retorna la longitud que existe entre dos puntos.  
+> Retorna la longitud que existe entre dos puntos.  
 `obtenerLongitud(ancla, punto)`
 
 - `ancla`: El punto de referencia.
@@ -1740,7 +1746,7 @@ Obtiene el punto en la línea formada por los dos puntos dados a partir de una t
 - `puntoB`: Segundo punto.
 - `tolerancia`: La tolerancia debe ser de **0** a **1**.
 
-> Devuelve un punto en la línea.
+> Devuelve un [Punto](#punto) en la línea.
 
 ``` JavaScript
 const rect = new Rect(document.querySelector(".div_1"),true);
@@ -1769,8 +1775,74 @@ window.addEventListener('wheel',e=>{
     rect.posicionarPorElCentro(p);
 });
 ```
-
 <p align="center"><a href="#"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYngzcHduaHJkaml3cXN3cHNzYXMzcDk2aWNvMmR1eWxzZGR0MmR5aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xTO7TBBmsqwrE2Kq0x/source.gif" alt="demo Nauty - BezierLineal"></a><p/>
+
+---
+
+#### ⚙ obtenerPuntoRotado:
+
+Devuelve la posición del punto rotado a partir del punto ancla como referencia.  
+`obtenerPuntoRotado(origen, punto, angulo)`
+
+- `origen`: Punto de referencia.
+- `punto`: Punto que será rotado a partir de la referencia.
+- `angulo`: Ángulo de rotación en el rango de 0 a 360 grados.
+
+> Devuelve el [Punto](#punto) rotado.
+``` JavaScript
+const rect = new Rect(document.querySelector(".div_1"),true);
+const pin_1 = new Rect(document.querySelector(".pin_1"),true);
+const pin_2 = new Rect(document.querySelector(".pin_2"),true);
+
+const puntoA = new Punto(100,100);
+const puntoB = new Punto(250,250);
+
+pin_1.posicionarPorElCentro(puntoA);
+pin_2.posicionarPorElCentro(puntoB);
+
+rect.posicionarPorElCentro(puntoA);
+
+let grados = 0;
+
+window.addEventListener('wheel',e=>{
+    grados += e.deltaY ? 1 : -1;
+
+    const p = obtenerPuntoRotado(puntoB,puntoA,grados);
+    rect.posicionarPorElCentro(p);
+    pin_1.posicionarPorElCentro(p);
+});
+```
+<p align="center"><a href="#"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjZrZGM2MHZ6bTk2ZmMzYTJmeDE1dmRxdmlmM2kwd21mb2dlZzBubiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RLvh0SRTWPoQn951Cv/source.gif" alt="demo Nauty - obtenerPuntoRotado"></a><p/>
+
+---
+
+#### ⚙ aRadial
+
+Convierte los grados a radianes.  
+`aRadial(grados)`
+
+- `grados`: Ángulo en grados.
+
+> Devuelve el valor en radianes.
+
+#### ⚙ aGrados
+
+Convierte los radianes a grados.  
+`aGrados(radial)`
+
+- `radial`: Valor en radianes.
+
+> Devuelve el valor en grados.
+
+#### ⚙ rectificarAngulo
+
+Corrige el rango del ángulo si es mayor o menor a sus límites: 0 - 360.  
+`rectificarAngulo(angulo)`
+
+- `angulo`: Ángulo a rectificar.
+
+> Devuelve el ángulo corregido.
+
 
 <br/>
 </details>
