@@ -1,5 +1,5 @@
 import Matrix from "./Matrix.js";
-import { obtenerCuadrante, aRadial , __cuadrante } from "./Cartesianas.js";
+import {aRadial} from "./Cartesianas.js";
 import Punto from "./Punto.js";
 import Rect from "./Rect.js";
 /**
@@ -25,15 +25,13 @@ export function rotar(grados,pivote,rect,presicion = 3){
         const pR = pivote.copia.resta(centroRect);
         const pT = rot.desMapea(pR);
 
-        if(obtenerCuadrante(centroRect,pivote) & __cuadrante.c2|__cuadrante.c4)
-            rot.desplazo.bCopiar(pR).bResta(pT);
-        else 
-            rot.desplazo.bCopiar(pT).bResta(pR);
+        rot.desplazo.bCopiar(pR).bResta(pT);
 
-        if(!(Math.abs(pT.x.toFixed(presicion)) - Math.abs(pR.y.toFixed(presicion)))){
-            const valor = Math.abs(pT.x + pR.x);
-            rot.dy = rot.dy > 0 ? valor : -valor;}}
-    
+        if((Math.abs(pT.x.toFixed(presicion)) - Math.abs(pR.y.toFixed(presicion))) == 0){
+            const activador = Math.abs(pT.y.toFixed(presicion)) - Math.abs(pR.x.toFixed(presicion));
+            if(activador != 0){
+                const valor = Math.abs(pT.x + pR.x);
+                rot.dy = rot.dy > 0 ? valor : -valor;}}}   
     return rot;}
 /**
  * Realiza una escala en el plano bidimensional.

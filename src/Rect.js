@@ -12,10 +12,12 @@ export default class Rect{
      * 1. + *args_0 =* `[x : number]`, *args_1 =* `[y : number]`, *args_2 =* `[w : number]`, *args_3 =* `[h : number]`
      * 2. + *args_0 =* `[punto : Punto]`, *args_1 =* `[dimension : Dimension]`
      * 3. + *args_0 =* `[puntoA : Punto]`, *args_1 =* `[puntoB : Punto]`
+     * 4. + *args_0 =* `[DOM : HTMLElement]`, *args_1 =* `[Anclar : boolean]`
      * @param {[number|Punto|HTMLElement number|Dimension|Punto|boolean number|undefined number|undefined]} args
      * + (**`x`** : posición X, **`y`** :posición Y, **`w`** : ancho, **`h`**: altura)
      * + (**`punto`** : coordenada, **`dimensión`** : dimension del rectángulo)
      * + (**`puntoA`** : punto de referencia, **`puntoB`** : punto de referencia)
+     * + (**`DOM`** : objeto HTML, **`Anclar`** : Si es *`true`* la modificaciones se veran reflejadas en el objeto HTML anclado)
      */
     constructor(...args) {this.nuevo(...args);}
     /**
@@ -24,10 +26,12 @@ export default class Rect{
      * 1. + *args_0 =* `[x : number]`, *args_1 =* `[y : number]`, *args_2 =* `[w : number]`, *args_3 =* `[h : number]`
      * 2. + *args_0 =* `[punto : Punto]`, *args_1 =* `[dimension : Dimension]`
      * 3. + *args_0 =* `[puntoA : Punto]`, *args_1 =* `[puntoB : Punto]`
+     * 4. + *args_0 =* `[DOM : HTMLElement]`, *args_1 =* `[Anclar : boolean]`
      * @param {[number|Punto|HTMLElement number|Dimension|Punto|boolean number|undefined number|undefined]} args
      * + (**`x`** : posición X, **`y`** :posición Y, **`w`** : ancho, **`h`**: altura)
      * + (**`punto`** : coordenada, **`dimensión`** : dimension del rectángulo)
      * + (**`puntoA`** : punto de referencia, **`puntoB`** : punto de referencia)
+     * + (**`DOM`** : objeto HTML, **`Anclar`** : Si es *`true`* la modificaciones se veran reflejadas en el objeto HTML anclado)
      * @returns {this}
      */
     nuevo(...args){
