@@ -5,7 +5,6 @@
 
 ## ¿Qué es Nauty?
 Es un conjunto de herramientas para trabajar con elementos geométricos en un plano cartesiano, permitiendo crear, manipular y transformar objetos de manera eficiente y precisa. Es especialmente útil para aplicaciones gráficas, juegos, visualizaciones de datos y cualquier otra tarea que involucre coordenadas y geometría en el plano.  
-[ver demo](#demo)
 
 ###### instalacion:
 ``` bash
@@ -281,7 +280,7 @@ const instanciaPunto = new Punto(-1,2);
 console.log(instanciaPunto);
 
 const instanciaDimension = new Dimension(100,100);
-instanciaPunto.bSuma(instanciDimension); // return this
+instanciaPunto.bSuma(instanciaDimension); // return this
 
 console.log(instanciaPunto);
 ```
@@ -308,7 +307,7 @@ const instanciaPunto = new Punto(-1,2);
 console.log(instanciaPunto);
 
 const instanciaDimension = new Dimension(100,100);
-instanciaPunto.bResta(instanciDimension); // return this
+instanciaPunto.bResta(instanciaDimension); // return this
 
 console.log(instanciaPunto);
 ```
@@ -523,7 +522,7 @@ const desplazo_3 = new Desplazo(3,3);
 
 console.log(desplazo_3);
 
-desplazo_3.suma(desplazo_1).suma(desplazo_2);
+desplazo_3.resta(desplazo_1).resta(desplazo_2);
 
 console.log(desplazo_3);
 ```
