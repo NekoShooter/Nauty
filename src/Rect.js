@@ -319,9 +319,7 @@ export default class Rect{
         if(globalThis.HTMLElement && nodo instanceof HTMLElement){
             this.resetear();
             this.#eliminarVar();          
-            if(enlazar){
-                this.#HTML = nodo;
-                console.log(nodo.tagName)}
+            if(enlazar){this.#HTML = nodo;}
                 
             this.#d.nuevo(nodo.offsetWidth,nodo.offsetHeight);
             this.#p.nuevo(nodo.offsetLeft,nodo.offsetTop);} }
